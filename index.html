@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Curvi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Le styles -->
+    <link href="media/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link href="media/css/font-awesome.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 20px;
+        padding-bottom: 40px;
+      }
+
+      .container-splash {
+        background-image: url('media/tileable_wood_texture.png');
+        padding: 20px 0px;
+        width:100%;
+      }
+      /* Custom container */
+      .container-narrow {
+        margin: 0 auto;
+        max-width: 700px;
+      }
+      .container-narrow > hr {
+        margin: 30px 0;
+      }
+
+      /* Main marketing message and sign up button */
+      .jumbotron {
+        margin: 60px 0;
+        text-align: center;
+      }
+      .jumbotron h1 {
+        font-size: 55px;
+        line-height: 1;
+      }
+      .jumbotron .btn {
+        font-size: 21px;
+        /*padding: 14px 24px;*/
+        position: relative;
+        top: -5px;
+      }
+
+      /* Supporting marketing content */
+      .marketing {
+        margin: 40px 0;
+      }
+      .marketing p + h4 {
+        margin-top: 28px;
+      }
+
+      .north {
+        margin-top: 20px;
+        margin-bottom: 0px;
+      }
+
+      .south {
+        margin-top: 2px;
+        margin-bottom: 20px;
+      }
+      .logo {
+        background-image:url('media/curvi_logo_alpha_200.png');
+        background-repeat: no-repeat;
+        background-size: 165px;
+      }
+
+      #signup-response {
+        display:inline;
+        margin-left:4px;
+        padding-left:20px;
+      }
+
+      .response-waiting {
+        background:url("media/loading.gif") no-repeat;
+      }
+
+      .response-success {
+        background:url("media/tick.png") no-repeat;
+      }
+
+      .response-error {
+        background:url("media/cross.png") no-repeat;
+      }
+
+      .iconheads-wrap{
+        margin:0 auto;
+        margin-top:45px;
+      }
+
+      .iconheads {
+        float:left;
+      }
+
+      .iconheads a {
+        color:#000;
+      }
+
+      .iconheads a:hover {
+        color:#0088cc;
+      }
+      .icon-space {
+        margin: 0px 35px;
+      }
+
+    </style>
+    <link href="media/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <script src="media/jquery.js"></script>
+  </head>
+
+  <body>
+
+
+    <div class="container-narrow">
+
+      <div class="masthead">
+        <ul class="nav nav-pills pull-right">
+          <li class="active"><a href="#">Home</a></li>
+          <li><a href="mikenash.html">Sample1</a></li>
+          <li><a href="katienash.html">Sample2</a></li>
+          <!-- <li><a href="#">Contact</a></li> -->
+        </ul>
+        <h3 class="muted logo">&nbsp</h3>
+      </div>
+    </div>
+    
+    <hr class="north">
+
+    <div class="container-splash">
+      <div class="container-narrow">
+        <div class="jumbotron">
+          <h1>A Better Way to R&eacute;sum&eacute;</h1>
+          <p class="lead">Curvi thinks there's a better way to communicate your value as a professional.  We're re-imagining how to manage and engage with the story of your career.</p>
+          
+
+          <form id="beta-signup" action="signup_form.php?action=signup" method="post">  
+            <fieldset>  
+                <input type="text" name="signup-email" id="signup-email" placeholder="E-mail address"/>  
+                <!-- <br> -->
+                <input class="btn btn-large btn-success" type="submit" id="signup-button" value="Sign up for the beta release" /> 
+                <!-- <br> -->
+                <p id="signup-response"></p> 
+                <p>We'll send you an email when Curvi is ready, that's all!</p>
+            </fieldset>  
+          </form>  
+
+          <script>
+            $(document).ready(function(){  
+                $('#beta-signup').submit(function(){  
+                    //setup variables  
+                    var form = $(this),  
+                    formData = form.serialize(),  
+                    formUrl = form.attr('action'),  
+                    formMethod = form.attr('method'),  
+                    responseMsg = $('#signup-response');  
+                    //show response message - waiting  
+                    responseMsg.hide()  
+                               .addClass('response-waiting')  
+                               .text('Please Wait...')  
+                               .fadeIn(200);  
+                    //send data to server for validation  
+                    $.ajax({  
+                        url: formUrl,  
+                        type: formMethod,  
+                        data: formData,  
+                        success:function(data){  
+                            //setup variables  
+                            var responseData = jQuery.parseJSON(data),  
+                                klass = '';  
+                            //response conditional  
+                            switch(responseData.status){  
+                                case 'error':  
+                                    klass = 'response-error';  
+                                break;  
+                                case 'success':  
+                                    klass = 'response-success';  
+                                break;  
+                            }  
+                            //show reponse message  
+                            responseMsg.fadeOut(200,function(){  
+                                $(this).removeClass('response-waiting')  
+                                       .addClass(klass)  
+                                       .text(responseData.message)  
+                                       .fadeIn(200,function(){  
+                                           //set timeout to hide response message  
+                                           setTimeout(function(){  
+                                               responseMsg.fadeOut(200,function(){  
+                                                   $(this).removeClass(klass);  
+                                               });  
+                                           },3000);  
+                                        });  
+                             });  
+                          }  
+                    });  
+                    //prevent form from submitting  
+                    return false;  
+                });  
+            });    
+          </script>
+
+          <div class="iconheads-wrap row-fluid">
+            <p class="iconheads span12">
+              <a href="#details"><i class="icon-star icon-3x icon-space"></i></a>
+              <a href="#details"><i class="icon-sitemap icon-3x icon-space"></i></a>
+              <a href="#details"><i class="icon-suitcase icon-3x icon-space"></i></a>
+              <a href="#details"><i class="icon-bolt icon-3x icon-space"></i></a>
+              <a href="#details"><i class="icon-eye-open icon-3x icon-space"></i></a>
+              <a href="#details"><i class="icon-circle-arrow-up icon-3x icon-space"></i></a>
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <hr class="south">
+
+    <div class="container-narrow">
+
+      <div id="details" class="row-fluid marketing">
+        <div class="span6">
+          <h4><i class="icon-star"></i> Visually Captivating</h4>
+          <p>Nothing's more boring than a plain text resume.  Maybe a phone book.  Your resume is backed by data - let's show it.</p>
+
+          <h4><i class="icon-sitemap"></i> Cross Platform</h4>
+          <p>Keeping things cloud-based in your browser. Load it up on your tablet, smartphone, or laptop.  Pull it down for offline mode when wifi's questionable heading into an interview.</p>
+
+          <h4><i class="icon-suitcase"></i> Content: Managed</h4>
+          <p>Your resume has a header, probably a mission statement, then an assortment of experience, education, skills, and throw in some extra interests and community service.  Curvi treats these as document widgets - and they're smart.  More on that later.</p>
+
+        </div>
+
+        <div class="span6">
+          <h4><i class="icon-bolt"></i> Rich & Interactive</h4>
+          <p>We're modernizing the resume and adding more visuals.  Everyone wants to touch pretty charts.  We encourage touching, and magical things happen when you do.</p>
+
+          <h4><i class="icon-eye-open"></i> Explorative</h4>
+          <p>The modern day job seeker has diversity in their career and skill sets not being properly communicated by the traditional resume. Your experiences have depth that Curvi makes explorable for the end user.</p>
+
+          <h4><i class="icon-circle-arrow-up"></i> More Effective</h4>
+          <p>There's a better way to communicate an individual's professional value than the traditional resume.  We've re-imagined what the resume should be, and we think the result is a faster and more effective way to tell your story.</p>
+        </div>
+      </div>
+
+      <hr>
+
+    
+
+
+      <div class="footer">
+        <p>&copy; Curvi.me 2013</p>
+      </div>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-38375611-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+
+  </body>
+</html>
